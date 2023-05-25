@@ -28,6 +28,11 @@ public:
 		return true;
 	}
 
+	bool Find(Handle H) {
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		return I != D.end();
+	}
+
 	std::size_t Size() {
 		return D.size();
 	}
@@ -51,6 +56,8 @@ int main() {
 	HandleSystem<int> HS;//are you need HandleSystem to grobal variable.
 
 	auto A = HS.New();
+
+	auto D = HS.Find(A);
 
 	auto& B = HS.Get(A);
 
