@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+
+template<class T>
+class HandleSystem {
+public:
+	typedef void* Handle;
+
+	T& Get(Handle H) {
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		if (I == D.end()) { throw std::logic_error("Data is empty!"); }
+		return I->D;
+	}
+
+	Handle New() {
+		Data X;
+		X.I = C++;
+		D.push_back(X);
+		return (Handle)X.I;
+	}
+
+	bool Erase(Handle H) {
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		if (I == D.end()) { return false; }
+		D.erase(I);
+		return true;
+	}
+
+	std::size_t Size() {
+		return D.size();
+	}
+
+
+protected:
+	struct Data
+	{
+		std::size_t I=0;
+		T D = {0,};
+
+	};
+	std::vector <Data> D;
+	std::size_t C = 0;
+};
+
+int main() {
+	HandleSystem<int> HS;//are you need HandleSystem to grobal variable.
+
+	auto A = HS.New();
+
+	auto& B = HS.Get(A);
+
+	B = 0xdeadbeef;
+
+	auto C = HS.Size();
+
+	HS.Erase(A);
+	HS.Erase(A);
+	return 0;
+}
