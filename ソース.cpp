@@ -32,6 +32,9 @@ public:
 		return D.size();
 	}
 
+	T& operator [](std::size_t In) {
+		return D[In].D;
+	}
 
 protected:
 	struct Data
@@ -54,6 +57,10 @@ int main() {
 	B = 0xdeadbeef;
 
 	auto C = HS.Size();
+
+	for (std::size_t i = 0; i < HS.Size(); i++) {
+		auto X = HS[i];
+	}
 
 	HS.Erase(A);
 	HS.Erase(A);
