@@ -6,14 +6,19 @@
 template<class T>
 class HandleSystem {
 public:
-	typedef void* Handle;
-
+	typedef std::size_t Handle;
+/** /
 	T& Get(Handle H) {
 		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
 		if (I == D.end()) { throw std::logic_error("Data is empty!"); }
 		return I->D;
 	}
-
+/**/
+	T* Get(Handle H) {
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		if (I == D.end()) { return nullptr; }
+		return &(I->D);
+	}
 	Handle New() {
 		Data X;
 		X.I = C++;
@@ -40,7 +45,6 @@ public:
 	T& operator [](std::size_t In) {
 		return D[In].D;
 	}
-
 protected:
 	struct Data
 	{
@@ -59,9 +63,9 @@ int main() {
 
 	auto D = HS.Find(A);
 
-	auto& B = HS.Get(A);
+	auto B = HS.Get(A);
 
-	B = 0xdeadbeef;
+	*B = 0xdeadbeef;
 
 	auto C = HS.Size();
 
