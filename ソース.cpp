@@ -15,7 +15,7 @@ public:
 	}
 /**/
 	T* Get(Handle H) {
-		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return In.I == H; });
 		if (I == D.end()) { return nullptr; }
 		return &(I->D);
 	}
@@ -23,18 +23,18 @@ public:
 		Data X;
 		X.I = C++;
 		D.push_back(X);
-		return (Handle)X.I;
+		return X.I;
 	}
 
 	bool Erase(Handle H) {
-		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return In.I == H; });
 		if (I == D.end()) { return false; }
 		D.erase(I);
 		return true;
 	}
 
 	bool Find(Handle H) {
-		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return (Handle)In.I == H; });
+		auto I = std::find_if(D.begin(), D.end(), [&](auto& In) {return In.I == H; });
 		return I != D.end();
 	}
 
@@ -48,12 +48,13 @@ public:
 protected:
 	struct Data
 	{
-		std::size_t I=0;
+		//std::size_t I=0;
+		Handle I = {0,};
 		T D = {0,};
 
 	};
 	std::vector <Data> D;
-	std::size_t C = 0;
+	Handle C = 0;//counter of the Handle variable.
 };
 
 int main() {
